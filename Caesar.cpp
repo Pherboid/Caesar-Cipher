@@ -1,8 +1,9 @@
 #include "Caesar.h"
 using namespace std;
 
-Caesar:: Caesar(int shiftingKey){
-	cout << alphabet <<endl;
+Caesar:: Caesar(const int shiftingKey, const string alphabet){
+	this->alphabet = alphabet;
+	cout << this->alphabet <<endl;
 	shiftKey = shiftingKey;
 	shiftAlphabet();
 }
@@ -12,20 +13,11 @@ Caesar:: ~Caesar(){
 
 void Caesar:: shiftAlphabet(){
 	
-	int alphaSize = alphabet.size();
+	unsigned int alphaSize = alphabet.size();
 	string newAlphabet = alphabet;
-	int index = 0;
 	
-	for (int i = 0; i < alphaSize; i++){
-		
-		if ( (i + shiftKey) <= (alphaSize-1) ){
-			index = i+shiftKey;
-		}
-		
-		else{
-			index = (( i+shiftKey)- alphaSize );
-		}
-		
+	for (unsigned int i = 0; i < alphaSize; i++){
+		unsigned int index = (i + shiftKey) <= (alphaSize-1) ? i+shiftKey : (i+shiftKey) - alphaSize;
 		newAlphabet[i] = alphabet[index];
 	}
 	
@@ -39,32 +31,23 @@ void Caesar:: updateShiftKey(int shiftAmt){
 	shiftKey = shiftAmt;
 }
 
-string Caesar:: encrypt(string msg){
+string Caesar:: encrypt(const string msg)const{
 	
-	int index = 0;
-	int alphaSize = alphabet.size();
+	unsigned int alphaSize = alphabet.size();
 	string msg2 = msg;
 	
-	for (int u= 0; u < msg2.size(); u++){
+	for (unsigned int u= 0; u < msg2.size(); u++){
 		
 		if (isalpha(msg2[u])){
 			
-			for (int z = 0; z < alphabet.size(); z++){
+			for (unsigned int z = 0; z < alphabet.size(); z++){
 				
 				if (msg2[u] == alphabet[z]){
 					//cout << "index = " << z << "index char =" << alphabet[z] << endl;
 					
-					
-					//if new letter index is not more than alphabet Indexes
-					if ( (z + shiftKey) <= (alphaSize-1) ){
-						index = z+shiftKey;
-						
-					}
-		
-					else{
-						index = (( z+shiftKey)- alphaSize );
-					
-					}
+					//if new letter index is not more than alphabet Indexes use it // if not reset
+					unsigned int index = (z + shiftKey) <= (alphaSize-1) ? z+shiftKey : (z+shiftKey)- alphaSize;
+
 					//cout << "new Index = " << index << "new char" << alphabet[index]  <<endl;
 					msg2[u] = alphabet[index];
 					break;
@@ -78,28 +61,19 @@ string Caesar:: encrypt(string msg){
 	return msg2;
 }
 
-string Caesar::decrpyt (string msg){
-	int index = 0;
-	int alphaSize = alphabet.size();
+string Caesar::decrpyt (const string msg)const{
+	unsigned int alphaSize = alphabet.size();
 	string msg2 = msg;
 	
-	for (int u= 0; u < msg2.size(); u++){
+	for (unsigned int u= 0; u < msg2.size(); u++){
 		
 		if (isalpha(msg2[u])){
 			
-			for (int z = 0; z < alphabet.size(); z++){
+			for (int z = 0; z < alphaSize; z++){
 				
 				if (msg2[u] == alphabet[z]){
 					//cout << "index = " << z << "index char =" << alphabet[z] << endl;
-					if ( (z - shiftKey) > -1 ){
-						index = z-shiftKey;
-						
-					}
-		
-					else{
-						index = ((alphaSize) + ( z-shiftKey));
-					
-					}
+					unsigned int index = (z - shiftKey) > -1 ? z-shiftKey : ((alphaSize) + ( z-shiftKey));
 					//cout << "new Index = " << index << "new char" << alphabet[index]  <<endl;
 					msg2[u] = alphabet[index];
 					break;
