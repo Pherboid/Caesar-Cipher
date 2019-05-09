@@ -9,18 +9,19 @@ class Caesar
 {
 	
 	private:
-		string alphabet = "abcdefghijklmnopqrstuvwxyz"; 
-		string message = "";
+		string alphabet; 
+		string message = ""; //unused var??
 		int shiftKey = 0;
+		void shiftAlphabet();
 		
 		
 	public:
-		Caesar(int shiftingKey = 1);
+		Caesar(const int shiftingKey = 1, const string = "abcdefghijklmnopqrstuvwxyz");
 		~Caesar();
-		void shiftAlphabet();
-		void updateShiftKey(int shiftAmt);
-		string encrypt(string msg);
-		string decrpyt(string msg);
+		
+		void updateShiftKey(const int shiftAmt);
+		string encrypt(const string msg)const;
+		string decrpyt(const string msg)const;
 
 };
 
